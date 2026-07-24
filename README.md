@@ -24,7 +24,16 @@
 
 ## Package Contents
 
-### /documents
+### /figures
+All 12 final, verified figures (Figures 1–12) as high-resolution PNG files.
+
+### /scripts
+Standalone Python plotting scripts (Matplotlib/NumPy) for every figure, each with the underlying data hard-coded so it reproduces the exact published figure independently.
+
+### /graphical_abstract
+The graphical abstract PNG and its generating Python script.
+
+### /documents (or wherever your manuscript files are kept)
 | File | Description |
 |---|---|
 | `Manuscript_RSC_format_CORRECTED.docx` | Full RSC-format manuscript, all 12 figures embedded, all text and data corrected |
@@ -32,18 +41,24 @@
 | `covering_letter_new_submission.docx` | Cover letter for new submission |
 | `response_to_reviewers.docx` | Point-by-point response to reviewers (if resubmitting) |
 
-### /figures
-All 12 final, verified figures (Figures 1–12) as high-resolution PNG files, each with a matching standalone Python plotting script (see `/scripts`).
+---
 
-### /graphical_abstracts
-| File | Description |
-|---|---|
-| `graphical_abstract.png` | Single-panel narrative graphical abstract — pH-triggered film swelling via electrostatic coupling (acid vs. intestinal film, headline numbers) |
-| `six_panel_abstract.png` | Six-panel key-findings summary — one mini-figure per major result (ionization effect, TEC vs. PEG400, TEC concentration, pH-switch swelling, counterion effect, overlap concentration c*) |
+## Simulation Phases — Design, Duration, and System Size
 
-### /scripts
-Standalone Python plotting scripts (Matplotlib/NumPy) for every figure, each with the underlying data hard-coded so it reproduces the exact published figure independently:
-`figure01_deprotonation.py`, `figure02_pH_switch_schematic.py`, `figure03_plasticizer.py`, `figure04_tec_mechanism.py`, `figure05_tec_concentration.py`, `figure06_phase2_film.py`, `figure07_permeability.py`, `figure08_phase3_pHswitch.py`, `figure09_mechanism_cascade.py`, `figure10_counterion.py`, `figure11_phase5_concentration.py`, `figure12_cstar.py`, `graphical_abstract.py`, `six_panel_abstract.py`
+| Phase | Objective | System Design | Atoms | Duration |
+|---|---|---|---|---|
+| **0** | Deprotonation series | 7 × 1-chain | ~33,029 | 10–30 ns |
+| **0b** | Plasticiser comparison (TEC vs. PEG400) | 5-chain + IPA co-solvent, triplicate | — | 3 × 50 ns |
+| **1** | TEC concentration series | 4 × 1-chain (dep035 + 1–4 TEC) | ~33,635–33,704 | 30 ns |
+| **2** | Multi-chain film formation | 5-chain + 17 TEC | ~95,651 | 30 ns |
+| **3** | Acid → intestinal pH-switch | 5-chain film × 2 ionization states | ~92,088–95,049 | 30 ns |
+| **4** | Counterion identity (NaCl / NaHCO₃ / Na₂CO₃) | dep035 + 3 counterion types | ~33,000–33,200 | 10 ns (NaCl, NaHCO₃); **50 ns (Na₂CO₃ — extended; did not reach a stable conformation, value is indicative not converged)** |
+| **5** | Concentration-dependent chain behaviour | 2 / 5 / 8 / 12 / 20 / 30 / 40 / 50 chains | 50,847–169,906 | 30–40 ns |
+
+**Notes:**
+- Full deprotonation (100% COO⁻) was simulated in both Phase 0 (single-chain series, system `dep100`) and Phase 3 (multi-chain "intestinal" condition) — simulations were not capped at 10 mol% ionization.
+- Phase 5 atom counts do not scale monotonically with chain count: the 12-chain system (169,906 atoms) has a larger box than the 20–50-chain systems (~168,2–168,4k atoms), so it is not the most concentrated system by direct % w/v despite having more chains than the 8-chain system.
+- System naming can be misleading: the Phase 4 system labelled `dep035` is actually 40% ionized, not 3.5% — always verify ionization state from the topology/charge files rather than the filename.
 
 ---
 
